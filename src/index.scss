@@ -1,0 +1,103 @@
+@use 'sass:math';
+
+.is-style-animate-background {
+    background: linear-gradient(to bottom, #5B8ACB, #FFC9CC);
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+.is-style-animate-background .cube {
+    position: absolute;
+    bottom: 0;
+    width: 50px;
+    height: 25px;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.is-style-animate-background .cube.inward {
+    left: 0;
+}
+
+.is-style-animate-background .cube.outward {
+    right: 0;
+}
+
+
+$colors: (
+    #ff6347,
+    #4169e1,
+    #32cd32,
+    #ffa500,
+    #ff1493,
+    #9400d3,
+    #ff4500,
+    #00ced1,
+    #6a5acd,
+    #8b4513,
+    #20b2aa,
+    #ff6347
+);
+
+/* Assign rotations, animations, and styles to each cube */
+@for $i from 1 through 24 {
+    $pairIndex: floor(math.div($i - 1, 2));
+    $isInward: ($pairIndex % 2) == 0;
+    $rotationAngle: if($isInward, -45deg, 45deg);
+    $animationName: if($isInward, 'diagonalMoveInward', 'diagonalMoveOutward');
+    $positionClass: if($isInward, 'inward', 'outward');
+    $pairDelay: $pairIndex * 1s;
+    .is-style-animate-background .cube:nth-child(#{$i}) {
+        @extend .#{$positionClass};
+        transform: rotate($rotationAngle);
+        animation: #{$animationName} 12s infinite linear;
+        animation-delay: #{ $pairDelay };
+        background-color: nth(
+            $colors,
+            (($i - 1) % length($colors)) + 1
+        );
+    }
+}
+
+@keyframes diagonalMoveInward {
+    0% {
+        transform: translate(0, 0) rotate(-45deg);
+        opacity: 0;
+    }
+    8% {
+        opacity: 1;
+    }
+    50% {
+        transform: translate(50vw, -50vh) rotate(-45deg);
+        opacity: 1;
+    }
+    92% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(100vw, -100vh) rotate(-45deg);
+        opacity: 0;
+    }
+}
+
+@keyframes diagonalMoveOutward {
+    0% {
+        transform: translate(0, 0) rotate(45deg);
+        opacity: 0;
+    }
+    8% {
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50vw, -50vh) rotate(45deg);
+        opacity: 1;
+    }
+    92% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-100vw, -100vh) rotate(45deg);
+        opacity: 0;
+    }
+}
