@@ -1,0 +1,16 @@
+{
+  "name": "add-background-animations",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@wordpress/scripts": "^28.1.0"
+  }
+}
